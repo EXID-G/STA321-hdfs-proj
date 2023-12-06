@@ -13,7 +13,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import reducer.FindKMapper;
+import reducer.FindKReducer;
 import reducer.OutputReducer;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class Driver {
 //        job.setMapperClass(MultipleInputMapper2.class);
 
         // 设置Reduce处理逻辑及输出类型
-        job1.setReducerClass(FindKMapper.class);
+        job1.setReducerClass(FindKReducer.class);
         job1.setOutputKeyClass(Text.class);
         job1.setOutputValueClass(IntWritable.class);
 
