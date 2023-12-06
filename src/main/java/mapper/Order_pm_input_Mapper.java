@@ -12,6 +12,11 @@ public class Order_pm_input_Mapper extends Mapper<LongWritable, Text, Text, IntW
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String input = value.toString();
         String[] split = input.split("\\|");
+
+        //For each value, we need to select data from correct bank and time
+        //Then select the data by the feature 'order type'
+
+
         context.write(new Text(split[0]), new IntWritable(Integer.parseInt(split[2])));
     }
 }
