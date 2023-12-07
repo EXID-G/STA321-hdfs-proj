@@ -35,36 +35,35 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
             String execType = record[14];
             switch (execType){
                 case "4" : {
-                    Text val = new Text(record[12] + "," +   //TIMESTAMP
-                            record[10] + "," +                     //PRICE
-                            record[11] + "," +                     //SIZE
-                            record[13] + "," +                     //BUY_SELL_FLAG
-                            orderType + "," +                      //ORDER_TYPE
-                            record[7] + "," +                      //ORDER_ID
-                            "" + "," +                             //MARKET_ORDER_TYPE
-                            "2");                                  //CANCEL_TYPE
-                    multipleOutputs.write("LimitedOrder", new Text(""), val);
+                    String buy_sell_flag = (record[10].equals("0"))? "2":"1";
+                    String order_id = (buy_sell_flag.equals("1"))? record[10] : record[11];
+                    Text val = new Text(record[15] + "," +   //TIMESTAMP
+                            record[12] + "," +                     //PRICE
+                            record[13] + "," +                     //SIZE
+                            buy_sell_flag + "," +                  //BUY_SELL_FLAG
+                            " " + "," +                            //ORDER_TYPE
+                            order_id + "," +                       //ORDER_ID
+                            " " + "," +                            //MARKET_ORDER_TYPE
+                            "1");                                  //CANCEL_TYPE
+                    multipleOutputs.write("Cancel", new Text(""), val);
                 }
-                case "U" : {
-                    Text val = new Text(record[12] + "," +   //TIMESTAMP
-                            "" + "," +                             //PRICE
-                            record[11] + "," +                     //SIZE
-                            record[13] + "," +                     //BUY_SELL_FLAG
-                            orderType + "," +                      //ORDER_TYPE
-                            record[7] + "," +                      //ORDER_ID
-                            "" + "," +                             //MARKET_ORDER_TYPE
-                            "2");                                  //CANCEL_TYPE
-                    multipleOutputs.write("SpecOrder", new Text(""), val);
-                }
-                case "1" : {
-                    Text val = new Text(record[12] + "," +   //TIMESTAMP
-                            record[10] + "," +                     //PRICE
-                            record[11] + "," +                     //SIZE
-                            record[13] + "," +                     //BUY_SELL_FLAG
-                            orderType + "," +                      //ORDER_TYPE
+                case "F" : {
+                    Text val_bid = new Text(record[15] + "," +   //TIMESTAMP
+                            record[12] + "," +                     //PRICE
+                            record[13] + "," +                     //SIZE
+                            "1" + "," +                     //BUY_SELL_FLAG
+                            " " + "," +                      //ORDER_TYPE
                             "2" + "," +                            //CANCEL_TYPE
-                            "1");                                  //AUX
-                    context.write(new Text(record[7]), val);
+                            "2");                                  //AUX
+                    Text val_offer = new Text(record[15] + "," +   //TIMESTAMP
+                            record[12] + "," +                     //PRICE
+                            record[13] + "," +                     //SIZE
+                            "2" + "," +                     //BUY_SELL_FLAG
+                            " " + "," +                      //ORDER_TYPE
+                            "2" + "," +                            //CANCEL_TYPE
+                            "2");                                  //AUX
+                    context.write(new Text(record[10]), val_bid);
+                    context.write(new Text(record[11]), val_offer);
                 }
             }
         }

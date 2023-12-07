@@ -103,7 +103,7 @@ public class Driver {
         MultipleInputs.addInputPath(job2, new Path("output/job1/SpecOrder-r-00000"), TextInputFormat.class,
                 MapJoinMapper.class);
         // 设置第四个输入路径和对应的Map处理逻辑及输出类型
-        MultipleInputs.addInputPath(job2, new Path("output/job1/Traded-r-00000"), TextInputFormat.class,
+        MultipleInputs.addInputPath(job2, new Path("output/job1/Cancel-r-00000"), TextInputFormat.class,
                 MapJoinMapper.class);
 
         // 设置Reduce处理逻辑及输出类型

@@ -43,18 +43,18 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[13] + "," +                     //BUY_SELL_FLAG
                             orderType + "," +                      //ORDER_TYPE
                             record[7] + "," +                      //ORDER_ID
-                            "" + "," +                             //MARKET_ORDER_TYPE
+                            " " + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
                     multipleOutputs.write("LimitedOrder", new Text(""), val);
                 }
                 case "U" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
-                            "" + "," +                             //PRICE
+                            " " + "," +                             //PRICE
                             record[11] + "," +                     //SIZE
                             record[13] + "," +                     //BUY_SELL_FLAG
                             orderType + "," +                      //ORDER_TYPE
                             record[7] + "," +                      //ORDER_ID
-                            "" + "," +                             //MARKET_ORDER_TYPE
+                            " " + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
                     multipleOutputs.write("SpecOrder", new Text(""), val);
                 }
