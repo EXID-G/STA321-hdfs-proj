@@ -4,39 +4,37 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import java.io.IOException;
+public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 
-public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
     private MultipleOutputs<Text, Text> multipleOutputs;
     private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
     private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
     private final LocalTime END_TIME_AM = LocalTime.parse("1130", TIME_FORMATTER);
     private final LocalTime START_TIME_PM = LocalTime.parse("1300", TIME_FORMATTER);
     private final LocalTime END_TIME_PM = LocalTime.parse("1457", TIME_FORMATTER);
-
-    @Override
     protected void setup(Context context) {
         multipleOutputs = new MultipleOutputs<>(context);
     }
-
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String input = value.toString();
         String[] record = input.split("\\s+");
 
-        String orderTimeString = record[12].substring(8,12);
-        LocalTime orderTime = LocalTime.parse(orderTimeString, TIME_FORMATTER);
-        boolean inContPhase = ((!orderTime.isBefore(START_TIME_AM))&
-                (!orderTime.isAfter(END_TIME_AM))) | ((!orderTime.isBefore(START_TIME_PM))&
-                (!orderTime.isAfter(END_TIME_PM)));
+        String tradedTimeString = record[15].substring(8,12);
+        LocalTime tradedTime = LocalTime.parse(tradedTimeString, TIME_FORMATTER);
+        boolean inContPhase = ((!tradedTime.isBefore(START_TIME_AM))&
+                (!tradedTime.isAfter(END_TIME_AM))) | ((!tradedTime.isBefore(START_TIME_PM))&
+                (!tradedTime.isAfter(END_TIME_PM)));
 
         if ( record[8].equals("000001") & inContPhase) {
-            String orderType = record[14];
-            switch (orderType){
-                case "2" : {
+            String execType = record[14];
+            switch (execType){
+                case "4" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
                             record[10] + "," +                     //PRICE
                             record[11] + "," +                     //SIZE
@@ -70,13 +68,5 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                 }
             }
         }
-        //For each value, we need to select data from "000001" and "9:30~11:30"
-        //Then select the data by the feature 'order type'
-    }
-
-
-    @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-        multipleOutputs.close();
     }
 }

@@ -58,10 +58,10 @@ public class Driver {
                 Order_input_Mapper.class);
         // 设置第三个输入路径和对应的Map处理逻辑及输出类型
         MultipleInputs.addInputPath(job1, new Path("data/trade/am_hq_trade_spot.txt"), TextInputFormat.class,
-                Trade_am_input_Mapper.class);
+                Trade_input_Mapper.class);
         // 设置第四个输入路径和对应的Map处理逻辑及输出类型
         MultipleInputs.addInputPath(job1, new Path("data/trade/pm_hq_trade_spot.txt"), TextInputFormat.class,
-                Trade_pm_input_Mapper.class);
+                Trade_input_Mapper.class);
 
 
 //        job.setMapperClass(MultipleInputMapper2.class);
