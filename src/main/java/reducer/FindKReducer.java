@@ -20,7 +20,7 @@ public class FindKReducer extends Reducer<Text, Text, Text, Text> {
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         // For each key (ORDED_ID, that is,ApplSeqNum), we have the value:
-        // (TIMESTAMP, SIZE, PRICE, BUY_SELL_FLAG, ORDER_TYPE, CANCEL_TYPE, AUX)
+        // (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, CANCEL_TYPE, AUX)
         // AUX=1, from the table MarketOrder; AUX=0, from the table Traded.
 
         // For each key, we need to find the unique PRICE with AUX=0, and let K = (num of unique PRICE).
@@ -31,7 +31,7 @@ public class FindKReducer extends Reducer<Text, Text, Text, Text> {
         String order_type = "";
         String cancel_type = "";
 
-        HashSet<Integer> uniqueValues = new HashSet<>();
+        HashSet<Double> uniqueValues = new HashSet<>();
 
         for (Text value : values) {
             // for each value, split it by ',' and get the fields
@@ -40,13 +40,13 @@ public class FindKReducer extends Reducer<Text, Text, Text, Text> {
             if (fields[6].equals("1")) {
                 // if AUX = 1, then it is from the table MarketOrder
                 timestamp = fields[0];
-                size = fields[1];
+                size = fields[2];
                 buy_sell_flag = fields[3];
                 order_type = fields[4];
                 cancel_type = fields[5];
             } else {
                 // if AUX = 0, then it is from the table Traded, we only need the unique PRICE
-                uniqueValues.add(Integer.parseInt(fields[2]));
+                uniqueValues.add(Double.parseDouble(fields[1]));
             }
         }
 

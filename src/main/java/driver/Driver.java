@@ -75,10 +75,10 @@ public class Driver {
         FileOutputFormat.setOutputPath(job1, new Path("output/job1"));
 
         // 设置多输出,即输出四张表
-        MultipleOutputs.addNamedOutput(job1, "MarketOrder", TextOutputFormat.class, Text.class, IntWritable.class);
-        MultipleOutputs.addNamedOutput(job1, "LimitedOrder", TextOutputFormat.class, Text.class, IntWritable.class);
-        MultipleOutputs.addNamedOutput(job1, "SpecOrder", TextOutputFormat.class, Text.class, IntWritable.class);
-        MultipleOutputs.addNamedOutput(job1, "Traded", TextOutputFormat.class, Text.class, IntWritable.class);
+        MultipleOutputs.addNamedOutput(job1, "MarketOrder", TextOutputFormat.class, Text.class, Text.class);
+        MultipleOutputs.addNamedOutput(job1, "LimitedOrder", TextOutputFormat.class, Text.class, Text.class);
+        MultipleOutputs.addNamedOutput(job1, "SpecOrder", TextOutputFormat.class, Text.class, Text.class);
+        MultipleOutputs.addNamedOutput(job1, "Traded", TextOutputFormat.class, Text.class, Text.class);
 
 
         // 提交job1
@@ -106,13 +106,10 @@ public class Driver {
         MultipleInputs.addInputPath(job2, new Path("output/job1/Traded-r-00000"), TextInputFormat.class,
                 MapJoinMapper.class);
 
-
-//        job.setMapperClass(MultipleInputMapper2.class);
-
         // 设置Reduce处理逻辑及输出类型
         job2.setReducerClass(OutputReducer.class);
         job2.setOutputKeyClass(Text.class);
-        job2.setOutputValueClass(IntWritable.class);
+        job2.setOutputValueClass(Text.class);
 
         // 设置输出路径
         Path outputPath = new Path("output/job2");
@@ -122,7 +119,6 @@ public class Driver {
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true);  // 删除已存在的输出目录
         }
-
 
         // 提交job2
         return job2.waitForCompletion(true);

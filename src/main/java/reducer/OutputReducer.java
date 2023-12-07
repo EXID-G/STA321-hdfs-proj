@@ -1,15 +1,16 @@
 package reducer;
 
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 import java.io.IOException;
 
-public class OutputReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class OutputReducer extends Reducer<LongWritable, Text, Text, Text> {
 
-    private MultipleOutputs<Text, IntWritable> multipleOutputs;
+    private MultipleOutputs<Text, Text> multipleOutputs;
 
     @Override
     protected void setup(Context context) {
@@ -17,13 +18,12 @@ public class OutputReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     }
 
     @Override
-    protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,            InterruptedException {
-        int sum = 0;
-        for (IntWritable value : values) {
-            sum += value.get();
+    protected void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException,
+            InterruptedException {
+        // sorted by the key(TIMESTAMP), we just need output the value
+        for (Text value : values) {
+            multipleOutputs.write("Output",new Text(""), value);
         }
-        if (sum > 200) multipleOutputs.write("more200", key, new IntWritable(sum));
-        else multipleOutputs.write("less200", key, new IntWritable(sum));
     }
 
     @Override
