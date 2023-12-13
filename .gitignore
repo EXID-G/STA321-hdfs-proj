@@ -41,3 +41,5 @@ data/order/am_hq_order_spot.txt
 data/order/pm_hq_order_spot.txt
 data/trade/am_hq_trade_spot.txt
 data/trade/pm_hq_trade_spot.txt
+
+output/

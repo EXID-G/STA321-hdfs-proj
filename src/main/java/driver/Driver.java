@@ -5,6 +5,7 @@ import mapper.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -42,7 +43,6 @@ public class Driver {
     }
 
 
-
     public static boolean runJob1() throws IOException, InterruptedException, ClassNotFoundException {
         Configuration conf1 = new Configuration();
 
@@ -69,17 +69,29 @@ public class Driver {
         // 设置Reduce处理逻辑及输出类型
         job1.setReducerClass(FindKReducer.class);
         job1.setOutputKeyClass(Text.class);
-        job1.setOutputValueClass(IntWritable.class);
+        job1.setOutputValueClass(Text.class);
 
         // 设置输出路径
-        FileOutputFormat.setOutputPath(job1, new Path("output/job1"));
+        Path outputPath = new Path("output/job1");
+        FileOutputFormat.setOutputPath(job1,outputPath);
 
         // 设置多输出,即输出四张表
         MultipleOutputs.addNamedOutput(job1, "MarketOrder", TextOutputFormat.class, Text.class, Text.class);
         MultipleOutputs.addNamedOutput(job1, "LimitedOrder", TextOutputFormat.class, Text.class, Text.class);
         MultipleOutputs.addNamedOutput(job1, "SpecOrder", TextOutputFormat.class, Text.class, Text.class);
-        MultipleOutputs.addNamedOutput(job1, "Traded", TextOutputFormat.class, Text.class, Text.class);
+        MultipleOutputs.addNamedOutput(job1, "Cancel", TextOutputFormat.class, Text.class, Text.class);
 
+        // 设置权限
+        FileSystem fs = FileSystem.get(conf1);
+        // 设置目录权限
+//        fs.setPermission(new Path("output"), FsPermission.createImmutable((short) 0755));
+        // 设置文件权限
+//        fs.setPermission(new Path("/user/myuser/output/part-r-00000"), FsPermission.valueOf("644"));
+//        fs.close();
+
+        if (fs.exists(outputPath)){
+            fs.delete(outputPath, true);  // 删除已存在的输出目录
+        }
 
         // 提交job1
         return job1.waitForCompletion(true);
@@ -115,10 +127,10 @@ public class Driver {
         Path outputPath = new Path("output/job2");
         FileOutputFormat.setOutputPath(job2, outputPath);
 
-        FileSystem fs = FileSystem.get(conf2);
-        if (fs.exists(outputPath)) {
-            fs.delete(outputPath, true);  // 删除已存在的输出目录
-        }
+//        FileSystem fs = FileSystem.get(conf2);
+//        if (fs.exists(outputPath)) {
+//            fs.delete(outputPath, true);  // 删除已存在的输出目录
+//        }
 
         // 提交job2
         return job2.waitForCompletion(true);
