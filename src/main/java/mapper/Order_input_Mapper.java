@@ -45,7 +45,8 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[7] + "," +                      //ORDER_ID
                             " " + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
-                    multipleOutputs.write("LimitedOrder", new Text(""), val);
+//                    multipleOutputs.write("LimitedOrder", new Text(""), val);
+                    context.write(new Text(record[7]), val);
                 }
                 case "U" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
@@ -56,7 +57,8 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[7] + "," +                      //ORDER_ID
                             " " + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
-                    multipleOutputs.write("SpecOrder", new Text(""), val);
+//                    multipleOutputs.write("SpecOrder", new Text(""), val);
+                    context.write(new Text(record[7]), val);
                 }
                 case "1" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP

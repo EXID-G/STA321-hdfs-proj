@@ -11,15 +11,15 @@ import java.time.format.DateTimeFormatter;
 
 public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 
-    private MultipleOutputs<Text, Text> multipleOutputs;
+//    private MultipleOutputs<Text, Text> multipleOutputs;
     private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
     private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
     private final LocalTime END_TIME_AM = LocalTime.parse("1130", TIME_FORMATTER);
     private final LocalTime START_TIME_PM = LocalTime.parse("1300", TIME_FORMATTER);
     private final LocalTime END_TIME_PM = LocalTime.parse("1457", TIME_FORMATTER);
-    protected void setup(Context context) {
-        multipleOutputs = new MultipleOutputs<>(context);
-    }
+//    protected void setup(Context context) {
+//        multipleOutputs = new MultipleOutputs<>(context);
+//    }
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String input = value.toString();
@@ -45,7 +45,8 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             order_id + "," +                       //ORDER_ID
                             " " + "," +                            //MARKET_ORDER_TYPE
                             "1");                                  //CANCEL_TYPE
-                    multipleOutputs.write("Cancel", new Text(""), val);
+//                    multipleOutputs.write("Cancel", new Text(""), val);
+                    context.write(new Text(order_id), val);
                 }
                 case "F" : {
                     Text val_bid = new Text(record[15] + "," +   //TIMESTAMP
