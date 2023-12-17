@@ -54,6 +54,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             "2");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("LimitedOrder", new Text(""), val);
                     context.write(new Text(record[7]), val);
+                    break;
                 }
                 case "U" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
@@ -66,6 +67,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             "2");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("SpecOrder", new Text(""), val);
                     context.write(new Text(record[7]), val);
+                    break;
                 }
                 case "1" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
@@ -76,7 +78,9 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             "2" + "," +                            //CANCEL_TYPE
                             "1");                                  //AUX
                     context.write(new Text(record[7]), val);
+                    break;
                 }
+
             }
         }
         //For each value, we need to select data from "000001" and "9:30~11:30"

@@ -7,6 +7,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -33,12 +34,12 @@ public class Driver {
         }
 
         // Run job2
-//        boolean success2 = runJob2();
-//        if (!success2) {
-//            System.err.println("Job2 failed.");
-//            System.exit(1);
-//        }
-//        System.exit(0);
+        boolean success2 = runJob2();
+        if (!success2) {
+            System.err.println("Job2 failed.");
+            System.exit(1);
+        }
+        System.exit(0);
 
 
 //      System.exit(job2.waitForCompletion(true) ? 0 : 1);
@@ -77,19 +78,14 @@ public class Driver {
         Path outputPath = new Path("output/job1");
         FileOutputFormat.setOutputPath(job1,outputPath);
 
-        // 设置多输出,即输出四张表
-        MultipleOutputs.addNamedOutput(job1, "MarketOrder", TextOutputFormat.class, Text.class, Text.class);
-        MultipleOutputs.addNamedOutput(job1, "LimitedOrder", TextOutputFormat.class, Text.class, Text.class);
-        MultipleOutputs.addNamedOutput(job1, "SpecOrder", TextOutputFormat.class, Text.class, Text.class);
-        MultipleOutputs.addNamedOutput(job1, "Cancel", TextOutputFormat.class, Text.class, Text.class);
+//        // 设置多输出,即输出四张表
+//        MultipleOutputs.addNamedOutput(job1, "MarketOrder", TextOutputFormat.class, Text.class, Text.class);
+//        MultipleOutputs.addNamedOutput(job1, "LimitedOrder", TextOutputFormat.class, Text.class, Text.class);
+//        MultipleOutputs.addNamedOutput(job1, "SpecOrder", TextOutputFormat.class, Text.class, Text.class);
+//        MultipleOutputs.addNamedOutput(job1, "Cancel", TextOutputFormat.class, Text.class, Text.class);
 
         // 设置权限
         FileSystem fs = FileSystem.get(conf1);
-        // 设置目录权限
-//        fs.setPermission(new Path("output"), FsPermission.createImmutable((short) 0755));
-        // 设置文件权限
-//        fs.setPermission(new Path("/user/myuser/output/part-r-00000"), FsPermission.valueOf("644"));
-//        fs.close();
 
         if (fs.exists(outputPath)){
             fs.delete(outputPath, true);  // 删除已存在的输出目录
@@ -127,7 +123,7 @@ public class Driver {
 
         // 设置Reduce处理逻辑及输出类型
         job2.setReducerClass(OutputReducer.class);
-        job2.setOutputKeyClass(NullWritable.class);
+        job2.setOutputKeyClass(LongWritable.class);
         job2.setOutputValueClass(Text.class);
 
         // 设置输出路径

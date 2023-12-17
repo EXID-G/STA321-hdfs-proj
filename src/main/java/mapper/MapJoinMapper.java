@@ -7,9 +7,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class MapJoinMapper extends Mapper<Text, Text, LongWritable, Text> {
+public class MapJoinMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
     @Override
-    protected void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String[] fields = value.toString().split(",");
 
         //Let key be the time stamp, value be the whole line.

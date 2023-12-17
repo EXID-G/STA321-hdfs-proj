@@ -52,6 +52,7 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             "1");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("Cancel", new Text(""), val);
                     context.write(new Text(order_id), val);
+                    break;
                 }
                 case "F": {
                     Text val_bid = new Text(record[15] + "," +   //TIMESTAMP
@@ -81,6 +82,7 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                         context.write(new Text(record[10]), val_bid);
                         context.write(new Text(record[11]), val_offer);
                     }
+                    break;
                 }
             }
         }

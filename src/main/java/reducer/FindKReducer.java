@@ -61,14 +61,14 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
                 if (fields[6].equals("1")) {
                     // if AUX = 1, then it is from the table MarketOrder
                     ;
-                } else if (fields[6].equals("0")) {
+                } else if (fields[6].equals("2")) {
                     // if AUX = 0, then it is from the table Traded, we only need the unique PRICE
                     uniqueValues.add(Double.parseDouble(fields[1]));
                 }
             } else {
                 flag = false;
                 //there are 8 fields, just output
-                context.write(NullWritable.get(), new Text(value+",hjw"));
+                context.write(NullWritable.get(), value);
             }
         }
 
@@ -78,7 +78,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         // the output is (TIMESTAMP, PRICE(=0), SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, K, CANCEL_TYPE)
         if (flag) {
             context.write(NullWritable.get(), new Text(timestamp + "," + 0 + "," + size + "," + buy_sell_flag +
-                    "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type+",zc"));
+                    "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type));
 
         }
     }
