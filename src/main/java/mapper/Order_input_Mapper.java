@@ -37,7 +37,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
         String orderTimeString = record[12].substring(8,14);   //记得改一下！！！
         LocalTime orderTime = LocalTime.parse(orderTimeString, TIME_FORMATTER);
         boolean inContPhase = ((!orderTime.isBefore(START_TIME_AM))&
-                (!orderTime.isAfter(END_TIME_AM))) ;//| ((!orderTime.isBefore(START_TIME_PM))&
+                (orderTime.isBefore(END_TIME_AM))) ;//| ((!orderTime.isBefore(START_TIME_PM))&
 //                (!orderTime.isAfter(END_TIME_PM)));
 
         if ( record[8].equals("000001") & inContPhase) {
