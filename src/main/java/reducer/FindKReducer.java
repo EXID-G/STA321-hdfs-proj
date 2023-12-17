@@ -68,7 +68,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
             } else {
                 flag = false;
                 //there are 8 fields, just output
-                context.write(NullWritable.get(), value);
+                context.write(NullWritable.get(), new Text(value+",hjw"));
             }
         }
 
@@ -78,7 +78,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         // the output is (TIMESTAMP, PRICE(=0), SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, K, CANCEL_TYPE)
         if (flag) {
             context.write(NullWritable.get(), new Text(timestamp + "," + 0 + "," + size + "," + buy_sell_flag +
-                    "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type));
+                    "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type+",zc"));
 
         }
     }
