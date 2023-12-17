@@ -31,7 +31,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         // For each key, we need to find the unique PRICE with AUX=0, and let K = (num of unique PRICE).
         String order_id = key.toString();
         String timestamp = " ";
-        String size = " ";
+        String size = "0";
         String buy_sell_flag = " ";
         String order_type = " ";
         String cancel_type = " ";
@@ -53,14 +53,13 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 
                 //considering orders which is before 9:30, they are filtered in mapper, but it can be traded after 9:30.
                 timestamp = fields[0];
-                size = fields[2];
                 buy_sell_flag = fields[3];
-                order_type = fields[4];
                 cancel_type = fields[5];
 
                 if (fields[6].equals("1")) {
                     // if AUX = 1, then it is from the table MarketOrder
-                    ;
+                    order_type = fields[4];
+                    size = fields[2];
                 } else if (fields[6].equals("2")) {
                     // if AUX = 0, then it is from the table Traded, we only need the unique PRICE
                     uniqueValues.add(Double.parseDouble(fields[1]));

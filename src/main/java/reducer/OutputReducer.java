@@ -23,6 +23,7 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
             InterruptedException {
         // sorted by the key(TIMESTAMP), we just need output the value
         for (Text value : values) {
+
             context.write(NullWritable.get(), value);
         }
     }

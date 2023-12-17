@@ -48,7 +48,7 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             buy_sell_flag + "," +                  //BUY_SELL_FLAG
                             " " + "," +                            //ORDER_TYPE
                             order_id + "," +                       //ORDER_ID
-                            " " + "," +                            //MARKET_ORDER_TYPE
+                            "0" + "," +                            //MARKET_ORDER_TYPE
                             "1");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("Cancel", new Text(""), val);
                     context.write(new Text(order_id), val);
@@ -84,6 +84,8 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                     }
                     break;
                 }
+                default:
+                    break;
             }
         }
     }

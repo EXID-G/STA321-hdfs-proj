@@ -50,7 +50,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[13] + "," +                     //BUY_SELL_FLAG
                             orderType + "," +                      //ORDER_TYPE
                             record[7] + "," +                      //ORDER_ID
-                            " " + "," +                             //MARKET_ORDER_TYPE
+                            "0" + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("LimitedOrder", new Text(""), val);
                     context.write(new Text(record[7]), val);
@@ -63,7 +63,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[13] + "," +                     //BUY_SELL_FLAG
                             orderType + "," +                      //ORDER_TYPE
                             record[7] + "," +                      //ORDER_ID
-                            " " + "," +                             //MARKET_ORDER_TYPE
+                            "0" + "," +                             //MARKET_ORDER_TYPE
                             "2");                                  //CANCEL_TYPE
 //                    multipleOutputs.write("SpecOrder", new Text(""), val);
                     context.write(new Text(record[7]), val);
@@ -80,7 +80,8 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                     context.write(new Text(record[7]), val);
                     break;
                 }
-
+                default:
+                    break;
             }
         }
         //For each value, we need to select data from "000001" and "9:30~11:30"
