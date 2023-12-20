@@ -38,7 +38,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 
         HashSet<Double> uniqueValues = new HashSet<>();
 
-        boolean flag = true;  // for different output
+        boolean flag1 = true;  // for different output
 
         // iterate through the values
         for (Text value : values) {
@@ -51,13 +51,12 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
             if (fields.length == 7) {
                 // there are 7 fields
 
-                //considering orders which is before 9:30, they are filtered in mapper, but it can be traded after 9:30.
-                timestamp = fields[0];
-                buy_sell_flag = fields[3];
-                cancel_type = fields[5];
-
+                //considering orders which is before 9:30, they are filtered in mapper, but it can be traded after 9:30.So this kind of data will be reduced.
                 if (fields[6].equals("1")) {
                     // if AUX = 1, then it is from the table MarketOrder
+                    timestamp = fields[0];
+                    buy_sell_flag = fields[3];
+                    cancel_type = fields[5];
                     order_type = fields[4];
                     size = fields[2];
                 } else if (fields[6].equals("2")) {
@@ -65,7 +64,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
                     uniqueValues.add(Double.parseDouble(fields[1]));
                 }
             } else {
-                flag = false;
+                flag1 = false;
                 //there are 8 fields, just output
                 context.write(NullWritable.get(), value);
             }
@@ -75,7 +74,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 //        new Text(order_id + "," + timestamp + "," + size + "," + 0 + "," + buy_sell_flag + "," +
 //        order_type + "," + uniqueValues.size() + "," + cancel_type));
         // the output is (TIMESTAMP, PRICE(=0), SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, K, CANCEL_TYPE)
-        if (flag) {
+        if (flag1 && (!(timestamp.equals(" ")))) {
             context.write(NullWritable.get(), new Text(timestamp + "," + 0 + "," + size + "," + buy_sell_flag +
                     "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type));
 
