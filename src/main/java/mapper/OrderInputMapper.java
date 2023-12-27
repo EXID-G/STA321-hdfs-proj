@@ -63,7 +63,7 @@ public class OrderInputMapper extends Mapper<LongWritable, Text, Text, Text> {
                 }
                 case "U" : {
                     Text val = new Text(record[12] + "," +   //TIMESTAMP
-                            "," +                             //PRICE
+                            "," +                                   //PRICE
                             record[11] + "," +                     //SIZE
                             record[13] + "," +                     //BUY_SELL_FLAG
                             orderType + "," +                      //ORDER_TYPE
