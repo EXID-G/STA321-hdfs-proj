@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
+public class TradeInputMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
     private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
