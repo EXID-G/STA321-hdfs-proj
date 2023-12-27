@@ -33,8 +33,8 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 
         LocalTime tradedTime = LocalTime.parse(tradedTimeString, TIME_FORMATTER);
         boolean inContPhase = ((!tradedTime.isBefore(START_TIME_AM)) &
-                !(tradedTime.isAfter(END_TIME_AM))) | ((!tradedTime.isBefore(START_TIME_PM))&
-        (!tradedTime.isAfter(END_TIME_PM)));
+                (tradedTime.isBefore(END_TIME_AM))) | ((!tradedTime.isBefore(START_TIME_PM))&
+        (tradedTime.isBefore(END_TIME_PM)));
 
         if (record[8].equals("000001") & inContPhase) {
             String execType = record[14];
