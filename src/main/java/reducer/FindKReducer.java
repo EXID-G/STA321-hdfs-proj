@@ -30,11 +30,11 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         //prepare for finding K
         // For each key, we need to find the unique PRICE with AUX=0, and let K = (num of unique PRICE).
         String order_id = key.toString();
-        String timestamp = " ";
+        String timestamp = "";
         String size = "0";
-        String buy_sell_flag = " ";
-        String order_type = " ";
-        String cancel_type = " ";
+        String buy_sell_flag = "";
+        String order_type = "";
+        String cancel_type = "";
 
         HashSet<Double> uniqueValues = new HashSet<>();
 
@@ -74,7 +74,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 //        new Text(order_id + "," + timestamp + "," + size + "," + 0 + "," + buy_sell_flag + "," +
 //        order_type + "," + uniqueValues.size() + "," + cancel_type));
         // the output is (TIMESTAMP, PRICE(=0), SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, K, CANCEL_TYPE)
-        if (flag1 && (!(timestamp.equals(" ")))) {
+        if (flag1 && (!(timestamp.isEmpty()))) {
             context.write(NullWritable.get(), new Text(timestamp + "," + 0 + "," + size + "," + buy_sell_flag +
                     "," + order_type + "," + order_id + "," + uniqueValues.size() + "," + cancel_type));
 

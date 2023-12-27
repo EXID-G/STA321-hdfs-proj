@@ -48,6 +48,7 @@ public class Driver {
         Job job1 = Job.getInstance(conf1, "job1");
         job1.setJarByClass(Driver.class);
 
+        // 如果要要在docker上跑，路径前要加一个“/”，否则会报错。本地就不用”/“
         // 设置第一个输入路径和对应的Map处理逻辑及输出类型
         MultipleInputs.addInputPath(job1, new Path("data/order/am_hq_order_spot.txt"), TextInputFormat.class,
                 Order_input_Mapper.class);

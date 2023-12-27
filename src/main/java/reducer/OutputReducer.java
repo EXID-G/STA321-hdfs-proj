@@ -36,7 +36,7 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
             // From 20190102091500990
             // To   2019-01-02 09:15:00.990000
             Text timeText =
-                    new Text(time.substring(0, 4) + "-" +   //2019-
+                    new Text(time.substring(0, 4) + "-" +         //2019-
                             time.substring(4, 6) + "-" +          //01-
                             time.substring(6, 8) + " " +          //02
                             time.substring(8, 10) + ":" +          //09:

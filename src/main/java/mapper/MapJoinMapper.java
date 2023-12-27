@@ -10,9 +10,9 @@ import java.io.IOException;
 public class MapJoinMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-        String[] fields = value.toString().split(",");
+//        String[] fields = value.toString().split(",");
 
         //Let key be the time stamp, value be the whole line.
-        context.write(new LongWritable(Long.parseLong(fields[0])), value);
+        context.write(new LongWritable(Long.parseLong(value.toString().substring(0,17))), value);
     }
 }
