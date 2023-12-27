@@ -46,7 +46,7 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[12] + "," +                     //PRICE
                             record[13] + "," +                     //SIZE
                             buy_sell_flag + "," +                  //BUY_SELL_FLAG
-                            " " + "," +                            //ORDER_TYPE
+                             "," +                                 //ORDER_TYPE
                             order_id + "," +                       //ORDER_ID
                             "0" + "," +                            //MARKET_ORDER_TYPE
                             "1");                                  //CANCEL_TYPE
@@ -58,15 +58,15 @@ public class Trade_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
                     Text val_bid = new Text(record[15] + "," +   //TIMESTAMP
                             record[12] + "," +                     //PRICE
                             record[13] + "," +                     //SIZE
-                            "1" + "," +                     //BUY_SELL_FLAG
-                            " " + "," +                      //ORDER_TYPE
+                            "1" + "," +                            //BUY_SELL_FLAG
+                            "," +                                  //ORDER_TYPE
                             "2" + "," +                            //CANCEL_TYPE
                             "2");                                  //AUX
                     Text val_offer = new Text(record[15] + "," +   //TIMESTAMP
                             record[12] + "," +                     //PRICE
                             record[13] + "," +                     //SIZE
-                            "2" + "," +                     //BUY_SELL_FLAG
-                            " " + "," +                      //ORDER_TYPE
+                            "2" + "," +                            //BUY_SELL_FLAG
+                            "," +                                  //ORDER_TYPE
                             "2" + "," +                            //CANCEL_TYPE
                             "2");                                  //AUX
                     if (record[10].equals("0") | record[11].equals("0")) {

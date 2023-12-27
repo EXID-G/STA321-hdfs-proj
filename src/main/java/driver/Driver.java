@@ -33,13 +33,13 @@ public class Driver {
             System.exit(1);
         }
 
-        // Run job2
-        boolean success2 = runJob2();
-        if (!success2) {
-            System.err.println("Job2 failed.");
-            System.exit(1);
-        }
-        System.exit(0);
+//        // Run job2
+//        boolean success2 = runJob2();
+//        if (!success2) {
+//            System.err.println("Job2 failed.");
+//            System.exit(1);
+//        }
+//        System.exit(0);
 
 
 //      System.exit(job2.waitForCompletion(true) ? 0 : 1);
