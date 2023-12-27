@@ -26,18 +26,18 @@ public class TradeInputMapper extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String input = value.toString();
-        if(!input.contains("\t000001")){
+        if (!input.contains("\t000001")) {
             return;
         }
         String[] record = input.split("\\s+");
 
-        String tradedTimeString = record[15].substring(8,12);
+        String tradedTimeString = record[15].substring(8, 12);
 //        String tradedTimeString = record[15].substring(8, 14);   //记得改一下！！！
 
         LocalTime tradedTime = LocalTime.parse(tradedTimeString, TIME_FORMATTER);
         boolean inContPhase = ((!tradedTime.isBefore(START_TIME_AM)) &
-                (tradedTime.isBefore(END_TIME_AM))) | ((!tradedTime.isBefore(START_TIME_PM))&
-        (tradedTime.isBefore(END_TIME_PM)));
+                (tradedTime.isBefore(END_TIME_AM))) | ((!tradedTime.isBefore(START_TIME_PM)) &
+                (tradedTime.isBefore(END_TIME_PM)));
 //        boolean inContPhase = ((!tradedTime.isBefore(START_TIME_AM)) &
 //                (tradedTime.isBefore(END_TIME_AM)));
 
@@ -51,10 +51,11 @@ public class TradeInputMapper extends Mapper<LongWritable, Text, Text, Text> {
                             record[12] + "," +                     //PRICE
                             record[13] + "," +                     //SIZE
                             buy_sell_flag + "," +                  //BUY_SELL_FLAG
-                             "," +                                 //ORDER_TYPE
+                            "," +                                 //ORDER_TYPE
                             order_id + "," +                       //ORDER_ID
                             "0" + "," +                            //MARKET_ORDER_TYPE
-                            "1");                                  //CANCEL_TYPE
+                            "1" + "," +                            //CANCEL_TYPE
+                            order_id);                           //For sort in Job2
 //                    multipleOutputs.write("Cancel", new Text(""), val);
                     context.write(new Text(order_id), val);
                     break;

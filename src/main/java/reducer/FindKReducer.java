@@ -25,6 +25,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         AUX=1, from the table MarketOrder; AUX=0, from the table Traded.
 
         8 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE)
+        9 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE, a feature for sorting in Job2)
         */
 
         //prepare for finding K
@@ -64,8 +65,8 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
                     uniqueValues.add(Double.parseDouble(fields[1]));
                 }
             } else {
-                flag1 = false;
-                //there are 8 fields, just output
+                flag1 = false; //Because using order_id as key, if the length is not 7, then it is must not be the market order, so we can give up finding K.
+                //just output
                 context.write(NullWritable.get(), value);
             }
         }
@@ -73,6 +74,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 //        multipleOutputs.write("MarketOrder", new Text(""),
 //        new Text(order_id + "," + timestamp + "," + size + "," + 0 + "," + buy_sell_flag + "," +
 //        order_type + "," + uniqueValues.size() + "," + cancel_type));
+
         // the output is (TIMESTAMP, PRICE(=0), SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, K, CANCEL_TYPE)
         if (flag1 && (!(timestamp.isEmpty()))) {
             context.write(NullWritable.get(), new Text(timestamp + "," + 0 + "," + size + "," + buy_sell_flag +
