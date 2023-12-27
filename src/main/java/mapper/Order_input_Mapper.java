@@ -11,16 +11,16 @@ import java.io.IOException;
 
 public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 //    private MultipleOutputs<Text, Text> multipleOutputs;
-//    private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
-//    private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
-//    private final LocalTime END_TIME_AM = LocalTime.parse("1130", TIME_FORMATTER);
-//    private final LocalTime START_TIME_PM = LocalTime.parse("1300", TIME_FORMATTER);
-//    private final LocalTime END_TIME_PM = LocalTime.parse("1457", TIME_FORMATTER);
+    private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
+    private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
+    private final LocalTime END_TIME_AM = LocalTime.parse("1130", TIME_FORMATTER);
+    private final LocalTime START_TIME_PM = LocalTime.parse("1300", TIME_FORMATTER);
+    private final LocalTime END_TIME_PM = LocalTime.parse("1457", TIME_FORMATTER);
 
     //记得注销的时候把incontphase也改一下！！！！！！
-    private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmmss");
-    private final LocalTime START_TIME_AM = LocalTime.parse("093000", TIME_FORMATTER);
-    private final LocalTime END_TIME_AM = LocalTime.parse("093030", TIME_FORMATTER);
+//    private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmmss");
+//    private final LocalTime START_TIME_AM = LocalTime.parse("093000", TIME_FORMATTER);
+//    private final LocalTime END_TIME_AM = LocalTime.parse("093030", TIME_FORMATTER);
 
 
 //    @Override
@@ -36,12 +36,10 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
         String orderTimeString = record[12].substring(8,12);
 //        String orderTimeString = record[12].substring(8,14);   //记得改一下！！！
         LocalTime orderTime = LocalTime.parse(orderTimeString, TIME_FORMATTER);
-//        boolean inContPhase = ((!orderTime.isBefore(START_TIME_AM))&
-//                (!orderTime.isAfter(END_TIME_AM))) | ((!orderTime.isBefore(START_TIME_PM))&
-//                (!orderTime.isAfter(END_TIME_PM)));
+        boolean inContPhase = ((!orderTime.isBefore(START_TIME_AM))&
+                (orderTime.isBefore(END_TIME_AM))) | ((!orderTime.isBefore(START_TIME_PM))&
+                (orderTime.isBefore(END_TIME_PM)));
 
-
-        boolean inContPhase = (!orderTime.isBefore(START_TIME_AM)) & (!orderTime.isAfter(END_TIME_AM));
         if ( record[8].equals("000001") & inContPhase) {
             String orderType = record[14];
             switch (orderType){
