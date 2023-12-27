@@ -40,6 +40,7 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 //                (!orderTime.isAfter(END_TIME_AM))) | ((!orderTime.isBefore(START_TIME_PM))&
 //                (!orderTime.isAfter(END_TIME_PM)));
 
+
         boolean inContPhase = (!orderTime.isBefore(START_TIME_AM)) & (!orderTime.isAfter(END_TIME_AM));
         if ( record[8].equals("000001") & inContPhase) {
             String orderType = record[14];
