@@ -1,6 +1,6 @@
 ## Problem Description
 Given the *Order* data and *Trade* data, compute the lowest transaction price level of each recorded market order using HDFS and MapReduce. 
-
+ 
 ## Task Comprehension
 All the market orders are stored in *Order* data, while all the transactions are recorded in the *Trade* data.
 Therefore, the core of the task is to use the primary key `ApplSeqNum` to link the two part of data.
