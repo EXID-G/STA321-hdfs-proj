@@ -1,6 +1,7 @@
 package reducer;
 
 //import org.apache.hadoop.io.IntWritable;
+
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -11,12 +12,18 @@ import java.io.IOException;
 
 public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Text> {
 
-//    private MultipleOutputs<Text, Text> multipleOutputs;
+    //    private MultipleOutputs<Text, Text> multipleOutputs;
 //
 //    @Override
 //    protected void setup(Context context) {
 //        multipleOutputs = new MultipleOutputs<>(context);
 //    }
+    @Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        // Add header to the output file
+        context.write(NullWritable.get(), new Text("TIMESTAMP,PRICE,SIZE,BUY_SELL_FLAG,ORDER_TYPE,ORDER_ID," +
+                "MARKET_ORDER_TYPE,CANCEL_TYPE"));
+    }
 
     @Override
     protected void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException,
