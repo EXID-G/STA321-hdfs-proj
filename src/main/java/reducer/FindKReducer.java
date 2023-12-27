@@ -60,7 +60,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
                     order_type = fields[4];
                     size = fields[2];
                 } else if (fields[6].equals("2")) {
-                    // if AUX = 0, then it is from the table Traded, we only need the unique PRICE
+                    // if AUX = 2, then it is from the table Traded, we only need the unique PRICE
                     uniqueValues.add(Double.parseDouble(fields[1]));
                 }
             } else {

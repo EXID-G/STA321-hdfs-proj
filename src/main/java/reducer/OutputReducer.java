@@ -44,7 +44,7 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
                             time.substring(12, 14) + "." +         //00.
                             time.substring(14, 17) + "000"          //990000
                     );
-            context.write(NullWritable.get(), new Text(timeText + "," + input.substring(17)));
+            context.write(NullWritable.get(), new Text(timeText  + input.substring(17)));
         }
     }
 
