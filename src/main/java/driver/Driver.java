@@ -5,18 +5,13 @@ import mapper.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.permission.FsPermission;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import reducer.FindKReducer;
 import reducer.OutputReducer;
 
@@ -33,13 +28,13 @@ public class Driver {
             System.exit(1);
         }
 
-//        // Run job2
-//        boolean success2 = runJob2();
-//        if (!success2) {
-//            System.err.println("Job2 failed.");
-//            System.exit(1);
-//        }
-//        System.exit(0);
+        // Run job2
+        boolean success2 = join_Sort();
+        if (!success2) {
+            System.err.println("Job2 failed.");
+            System.exit(1);
+        }
+        System.exit(0);
 
 
 //      System.exit(job2.waitForCompletion(true) ? 0 : 1);
@@ -96,7 +91,7 @@ public class Driver {
     }
 
 
-    public static boolean runJob2() throws IOException, InterruptedException, ClassNotFoundException {
+    public static boolean join_Sort() throws IOException, InterruptedException, ClassNotFoundException {
         Configuration conf2 = new Configuration();
 
         // The beginning of job2

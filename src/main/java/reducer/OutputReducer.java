@@ -1,11 +1,11 @@
 package reducer;
 
-import org.apache.hadoop.io.IntWritable;
+//import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+//import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 import java.io.IOException;
 
@@ -23,8 +23,21 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
             InterruptedException {
         // sorted by the key(TIMESTAMP), we just need output the value
         for (Text value : values) {
+            String input = value.toString();
+            String time = input.split(",")[0];
 
-            context.write(NullWritable.get(), value);
+            // From 20190102091500990
+            // To   2019-01-02 09:15:00.990000
+            Text timeText =
+                    new Text(time.substring(0, 4) + "-" +   //2019-
+                            time.substring(4, 6) + "-" +          //01-
+                            time.substring(6, 8) + " " +          //02
+                            time.substring(8, 10) + ":" +          //09:
+                            time.substring(10, 12) + ":" +          //15:
+                            time.substring(12, 14) + "." +         //00.
+                            time.substring(14, 17) + "000"          //990000
+                    );
+            context.write(NullWritable.get(), new Text(timeText + "," + input.substring(17)));
         }
     }
 

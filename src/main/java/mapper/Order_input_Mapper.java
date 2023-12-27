@@ -3,14 +3,14 @@ package mapper;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+//import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 
 public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
-    private MultipleOutputs<Text, Text> multipleOutputs;
+//    private MultipleOutputs<Text, Text> multipleOutputs;
     private final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HHmm");
     private final LocalTime START_TIME_AM = LocalTime.parse("0930", TIME_FORMATTER);
     private final LocalTime END_TIME_AM = LocalTime.parse("1130", TIME_FORMATTER);
@@ -23,10 +23,10 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
 //    private final LocalTime END_TIME_AM = LocalTime.parse("093030", TIME_FORMATTER);
 
 
-    @Override
-    protected void setup(Context context) {
-        multipleOutputs = new MultipleOutputs<>(context);
-    }
+//    @Override
+//    protected void setup(Context context) {
+//        multipleOutputs = new MultipleOutputs<>(context);
+//    }
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -89,8 +89,8 @@ public class Order_input_Mapper extends Mapper<LongWritable, Text, Text, Text> {
     }
 
 
-    @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-        multipleOutputs.close();
-    }
+//    @Override
+//    protected void cleanup(Context context) throws IOException, InterruptedException {
+//        multipleOutputs.close();
+//    }
 }
