@@ -75,13 +75,14 @@ public class TradeInputMapper extends Mapper<LongWritable, Text, Text, Text> {
                             "," +                                  //ORDER_TYPE
                             "2" + "," +                            //CANCEL_TYPE
                             "2");                                  //AUX
+
+
+                    //if the order was transacted, but record[10] and record[11] may have 0.
                     if (record[10].equals("0") | record[11].equals("0")) {
                         if (!record[10].equals("0")) {
-                            // if BUY_SELL_FLAG = 0, then it is from the table Bid
                             context.write(new Text(record[10]), val_bid);
                         }
                         if (!record[11].equals("0")) {
-                            // if BUY_SELL_FLAG = 1, then it is from the table Offer
                             context.write(new Text(record[11]), val_offer);
                         }
                     } else {

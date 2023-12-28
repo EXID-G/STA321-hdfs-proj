@@ -48,7 +48,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
 
             // check the length of fields,
             // 7 -> find K;
-            // 8 -> just output
+            // 8,9 -> just output
             if (fields.length == 7) {
                 // there are 7 fields
 
@@ -65,7 +65,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
                     uniqueValues.add(Double.parseDouble(fields[1]));
                 }
             } else {
-                flag1 = false; //Because using order_id as key, if the length is not 7, then it is must not be the market order, so we can give up finding K.
+                flag1 = false; //Because using order_id as key, if the length is not 7, then it is not from the market order, so we can give up finding K.
                 //just output
                 context.write(NullWritable.get(), value);
             }

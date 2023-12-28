@@ -50,16 +50,16 @@ public class Driver {
 
         // 如果要要在docker上跑，路径前要加一个“/”，否则会报错。本地就不用”/“
         // 设置第一个输入路径和对应的Map处理逻辑及输出类型
-        MultipleInputs.addInputPath(job1, new Path("/data/order/am_hq_order_spot.txt"), TextInputFormat.class,
+        MultipleInputs.addInputPath(job1, new Path("data/order/am_hq_order_spot.txt"), TextInputFormat.class,
                 OrderInputMapper.class);
         // 设置第二个输入路径和对应的Map处理逻辑及输出类型
-        MultipleInputs.addInputPath(job1, new Path("/data/order/pm_hq_order_spot.txt"), TextInputFormat.class,
+        MultipleInputs.addInputPath(job1, new Path("data/order/pm_hq_order_spot.txt"), TextInputFormat.class,
                 OrderInputMapper.class);
         // 设置第三个输入路径和对应的Map处理逻辑及输出类型
-        MultipleInputs.addInputPath(job1, new Path("/data/trade/am_hq_trade_spot.txt"), TextInputFormat.class,
+        MultipleInputs.addInputPath(job1, new Path("data/trade/am_hq_trade_spot.txt"), TextInputFormat.class,
                 TradeInputMapper.class);
         // 设置第四个输入路径和对应的Map处理逻辑及输出类型
-        MultipleInputs.addInputPath(job1, new Path("/data/trade/pm_hq_trade_spot.txt"), TextInputFormat.class,
+        MultipleInputs.addInputPath(job1, new Path("data/trade/pm_hq_trade_spot.txt"), TextInputFormat.class,
                 TradeInputMapper.class);
 
 

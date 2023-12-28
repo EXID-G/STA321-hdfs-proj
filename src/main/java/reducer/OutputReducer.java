@@ -30,12 +30,15 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
     @Override
     protected void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException,
             InterruptedException {
-        // sorted by the key(TIMESTAMP), we need change the format of TIMESTAMP and let the trade data behind the order data
+        // sorted by the key(TIMESTAMP), we need change the format of TIMESTAMP and let the trade data be behind the
+        // order data
 
         // 初始化一个TreeMap来保存键值对数据
         TreeMap<LongWritable, Text> dataMap = new TreeMap<>();
 
-        boolean flag = false; // if there is a trade data, then flag = true, which will be used to judge whether to output the data in the treeMap or not
+        // if there is a trade data, then flag = true, which will be used to judge whether to output the data in the
+        // treeMap or not
+        boolean flag = false;
 
         for (Text value : values) {
             String[] input = value.toString().split(",");
@@ -53,7 +56,8 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
                             time.substring(14, 17) + "000"          //990000
                     );
 
-            //if the length of input.split(",") is 9,then it will be output at last
+            //if the length of input.split(",") is 9,then it is from cancel table, which will be sorted(order_id as
+            // key) in tree and output at last.
             if (input.length == 9) {
                 flag = true;
                 dataMap.put(new LongWritable(Long.parseLong(input[8])),
