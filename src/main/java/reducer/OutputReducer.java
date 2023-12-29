@@ -61,7 +61,7 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
                             time.substring(14, 17) + "000"          //990000
                     );
 
-            //if the length of input.split(",") is 9,then it is from cancel table, which will be sorted(order_id as
+            //if the length of input.split(",") is 9,then it is from cancel table, which will be sorted(ApplSeqNum as
             // key) in tree and output at last.
             if (input.length == 9) {
                 Cancel_flag = true;

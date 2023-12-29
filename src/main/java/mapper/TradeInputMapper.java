@@ -55,7 +55,7 @@ public class TradeInputMapper extends Mapper<LongWritable, Text, Text, Text> {
                             order_id + "," +                       //ORDER_ID
                             "0" + "," +                            //MARKET_ORDER_TYPE
                             "1" + "," +                            //CANCEL_TYPE
-                            order_id);                           //For sort in Job2
+                            record[7]);                           //ApplSeqNum, For sort in Job2
 //                    multipleOutputs.write("Cancel", new Text(""), val);
                     context.write(new Text(order_id), val);
                     break;
