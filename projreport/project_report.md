@@ -1,6 +1,6 @@
 # STA321—Project Report
 
-**Menmber:** 张弛（12110821），胡嘉维（12110820）
+**Member:** 张弛（12110821），胡嘉维（12110820）
 
 ---
 
@@ -43,15 +43,15 @@ Our work is assigned to two MapReduce jobs.
 
 	> **Solution for difficulty 1: **
 	>
-	> While emits the data in the `MAP1`, arrange each record here in the final output form (which is of 8 fields) except for the data from *MarketOrder* (7 fields ), *Traded* (7 fields) and *Cancel* (9 fields), so that the data to be submitted into the reducers can be distinguished.
+	>  While emits the data in the `MAP1`, arrange each record here in the final output form (which is of 8 fields) except for the data from *MarketOrder* (7 fields ), *Traded* (7 fields) and *Cancel* (9 fields), so that the data to be submitted into the reducers can be distinguished.
 	>
-	> In `REDUCER1`, for each key (ORDED_ID, that is,ApplSeqNum), we have the value with different lengths:
+	>  In `REDUCER1`, for each key (ORDED_ID, that is,ApplSeqNum), we have the value with different lengths:
 	>
-	> - 7 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, CANCEL_TYPE, AUX) -> findK and output
-	> 	  AUX=1, from the table MarketOrder; AUX=0, from the table Traded.
+	>  - 7 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, CANCEL_TYPE, AUX) -> findK and output
+	>  	  AUX=1, from the table MarketOrder; AUX=0, from the table Traded.
 	>
-	> - 8 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE) -> just output
-	> - 9 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE, a feature for sorting in Job2) -> just output
+	>  - 8 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE) -> just output
+	>  - 9 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE, a feature for sorting in Job2) -> just output
 
 - Afterward `<k,v>` pairs from the *Traded* with the same `ApplSeqNum` are submitted to `REDUCE1` for counting (which just yields the number `K` of transaction price levels of the market order). 
 
@@ -65,6 +65,5 @@ Our work is assigned to two MapReduce jobs.
 	>
 	> 1. To sort the final output in time order, we take the `TIMESTAMP` as the key to submit the records to `OutputReducer`, taking advantage of the shuffle phase.
 	> 2. If the transaction data are at the same time,  the cancel data will be hehind the order data.  As there is a additional field in cancel data, the programme can easily detect the cancel data, which will be stored as well as  sorted(ORDER_ID as key) in the`TreeMap`. Then we can output them in sequence from `TreeMap` at last.
-
 
 

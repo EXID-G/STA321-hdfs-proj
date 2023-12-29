@@ -34,11 +34,16 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
         // order data
 
         // 初始化一个TreeMap来保存键值对数据
-        TreeMap<LongWritable, Text> dataMap = new TreeMap<>();
+        TreeMap<LongWritable, Text> CancelTree = new TreeMap<>();
+        TreeMap<LongWritable, Text> OrderTree = new TreeMap<>();
 
         // if there is a trade data, then flag = true, which will be used to judge whether to output the data in the
         // treeMap or not
-        boolean flag = false;
+        boolean Cancel_flag = false;
+
+        // if there is a order data, then flag = true, which will be used to judge whether to output the data in the
+        // treeMap or not
+        boolean Order_flag = false;
 
         for (Text value : values) {
             String[] input = value.toString().split(",");
@@ -59,18 +64,29 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
             //if the length of input.split(",") is 9,then it is from cancel table, which will be sorted(order_id as
             // key) in tree and output at last.
             if (input.length == 9) {
-                flag = true;
-                dataMap.put(new LongWritable(Long.parseLong(input[8])),
+                Cancel_flag = true;
+                CancelTree.put(new LongWritable(Long.parseLong(input[8])),
                         new Text(timeText + "," + input[1] + "," + input[2] + "," + input[3] + "," + input[4] + "," + input[5] + "," + input[6] + "," + input[7]));
             } else {
-                //if the length of input.split(",") is 8,then it will be output directly
-                context.write(NullWritable.get(), new Text(timeText + "," + input[1] + "," + input[2] + "," + input[3] +
-                        "," + input[4] + "," + input[5] + "," + input[6] + "," + input[7]));
+                Order_flag = true;
+                //if the length of input.split(",") is 8,then it will be stored in OrderTree and output before
+                // CancelTree
+                OrderTree.put(new LongWritable(Long.parseLong(input[5])),
+                        new Text(timeText + "," + input[1] + "," + input[2] + "," + input[3] + "," + input[4] + "," + input[5] + "," + input[6] + "," + input[7]));
+//                context.write(NullWritable.get(), new Text(timeText + "," + input[1] + "," + input[2] + "," +
+//                input[3] +
+//                        "," + input[4] + "," + input[5] + "," + input[6] + "," + input[7]));
             }
         }
 
-        if (flag) {
-            for (Map.Entry<LongWritable, Text> entry : dataMap.entrySet()) {
+        // output the data in the treeMap, OrderTree first, then CancelTree
+        if (Order_flag) {
+            for (Map.Entry<LongWritable, Text> entry : OrderTree.entrySet()) {
+                context.write(NullWritable.get(), entry.getValue());
+            }
+        }
+        if (Cancel_flag) {
+            for (Map.Entry<LongWritable, Text> entry : CancelTree.entrySet()) {
                 context.write(NullWritable.get(), entry.getValue());
             }
         }
