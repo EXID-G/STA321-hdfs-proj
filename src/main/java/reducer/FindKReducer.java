@@ -22,7 +22,7 @@ public class FindKReducer extends Reducer<Text, Text, NullWritable, Text> {
         For each key (ORDED_ID), we have the value with different lengths:
 
         7 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, CANCEL_TYPE, AUX)
-        AUX=1, from the table MarketOrder; AUX=0, from the table Traded.
+        AUX=1, from the table MarketOrder; AUX=2, from the table Traded.
 
         8 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE)
         9 -> (TIMESTAMP, PRICE, SIZE, BUY_SELL_FLAG, ORDER_TYPE, ORDED_ID, MARKET_ORDER_TYPE, CANCEL_TYPE, ApplSeqNum)
