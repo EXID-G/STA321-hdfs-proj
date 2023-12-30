@@ -41,7 +41,7 @@ public class OutputReducer extends Reducer<LongWritable, Text, NullWritable, Tex
         // treeMap or not
         boolean Cancel_flag = false;
 
-        // if there is a order data, then flag = true, which will be used to judge whether to output the data in the
+        // if there is an order data, then flag = true, which will be used to judge whether to output the data in the
         // treeMap or not
         boolean Order_flag = false;
 
